@@ -9,10 +9,6 @@ st.set_page_config(
     layout="wide"
 )
 
-# -------------------------------
-# PROFESSIONAL DASHBOARD THEME
-# -------------------------------
-
 st.markdown("""
 <style>
 
@@ -115,10 +111,6 @@ hr {
 </style>
 """, unsafe_allow_html=True)
 
-# -------------------------------
-# DASHBOARD HEADER
-# -------------------------------
-
 st.markdown("""
 <h1 style="
     color:#102A43;
@@ -151,15 +143,6 @@ df = pd.read_excel("Final_Nassau_Candy_Predictions.xlsx")
 
 st.success("✅ Dataset Loaded Successfully!")
 
-# st.write("### 📋 Dataset Preview")
-
-# st.dataframe(df.head())
-
-# st.write(df.head())
-
-# -------------------------------
-# Sidebar Filters
-# -------------------------------
 
 st.sidebar.title("⚙ Dashboard Filters")
 
@@ -193,9 +176,6 @@ selected_year = st.sidebar.selectbox(
     "Select Order Year",
     ["All"] + sorted(df["Order Year"].dropna().unique().tolist())
 )
-# -------------------------------
-# Apply Filters
-# -------------------------------
 
 filtered_df = df.copy()
 
@@ -224,7 +204,6 @@ margin-top:20px;
 """,
 unsafe_allow_html=True
 )
- # KPI Values
 
 total_orders = filtered_df["Order ID"].nunique()
 
@@ -233,7 +212,6 @@ total_sales = filtered_df["Sales"].sum()
 total_profit = filtered_df["Gross Profit"].sum()
 
 average_lead_time = filtered_df["Lead Time (Days)"].mean()
-# Create 4 Columns for KPI Cards
 
 col1, col2, col3, col4 = st.columns(4)
 
@@ -250,10 +228,6 @@ with col4:
     st.metric("⏱️ Avg Lead Time", f"{average_lead_time:.2f} Days")
 st.divider()
 
-# -------------------------------
-# Key Insights
-# -------------------------------
-
 st.markdown(
     """
     <div style="
@@ -269,7 +243,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Top Sales Region
 sales_region = (
     filtered_df.groupby("Region")["Sales"]
     .sum()
@@ -279,7 +252,6 @@ sales_region = (
 top_sales_region = sales_region.index[0]
 top_sales_value = sales_region.iloc[0]
 
-# Top Profit Factory
 profit_factory = (
     filtered_df.groupby("Factory")["Gross Profit"]
     .sum()
@@ -289,7 +261,6 @@ profit_factory = (
 top_profit_factory = profit_factory.index[0]
 top_profit_value = profit_factory.iloc[0]
 
-# Highest Lead Time Factory
 lead_factory = (
     filtered_df.groupby("Factory")["Lead Time (Days)"]
     .mean()
@@ -299,7 +270,6 @@ lead_factory = (
 highest_lead_factory = lead_factory.index[0]
 highest_lead_time = lead_factory.iloc[0]
 
-# Shipping and Risk
 slow_orders = (
     filtered_df[filtered_df["Shipping Speed"].astype(str).str.lower() == "slow"]
     ["Order ID"].nunique()
@@ -310,7 +280,6 @@ high_risk_orders = (
     ["Order ID"].nunique()
 )
 
-# Display insights
 insight1, insight2 = st.columns(2)
 
 with insight1:
@@ -414,13 +383,7 @@ with insight4:
 
 st.header("📊 Sales & Profit Analysis")
 
-# ==========================================
-# ROW 1 - SALES & PROFIT
-# ==========================================
-
 chart1, chart2 = st.columns(2)
-
-# ---------- Sales by Region ----------
 
 sales_by_region = (
     filtered_df.groupby("Region")["Sales"]
@@ -480,9 +443,6 @@ with chart1:
         use_container_width=True,
         config={"displayModeBar": False}
     )
-
-
-# ---------- Gross Profit by Factory ----------
 
 profit_by_factory = (
     filtered_df.groupby("Factory")["Gross Profit"]
@@ -545,14 +505,7 @@ with chart2:
 
 st.divider()
 
-
-# ==========================================
-# ROW 2 - SHIPPING & RISK
-# ==========================================
-
 chart3, chart4 = st.columns(2)
-
-# ---------- Sales by Ship Mode ----------
 
 sales_shipmode = (
     filtered_df.groupby("Ship Mode")["Sales"]
@@ -602,9 +555,6 @@ with chart3:
         use_container_width=True,
         config={"displayModeBar": False}
     )
-
-
-# ---------- Risk Level Distribution ----------
 
 risk_data = (
     filtered_df.groupby("Risk Level")
@@ -670,14 +620,7 @@ with chart4:
 
 st.divider()
 
-
-# ==========================================
-# ROW 3 - RECOMMENDATION & LEAD TIME
-# ==========================================
-
 chart5, chart6 = st.columns(2)
-
-# ---------- Recommendation Status ----------
 
 recommendation_data = (
     filtered_df.groupby("Recommendation Status")
@@ -726,9 +669,6 @@ with chart5:
         use_container_width=True,
         config={"displayModeBar": False}
     )
-
-
-# ---------- Average Lead Time by Factory ----------
 
 leadtime_factory = (
     filtered_df.groupby("Factory")["Lead Time (Days)"]
@@ -788,9 +728,6 @@ with chart6:
         use_container_width=True,
         config={"displayModeBar": False}
     )
-# ==========================================
-# OPTIMIZATION RECOMMENDATION
-# ==========================================
 
 st.markdown("""
 <h2 style="
@@ -804,11 +741,6 @@ st.markdown("""
 </h2>
 """, unsafe_allow_html=True)
 
-
-# -------------------------------
-# Recommendation Metrics
-# -------------------------------
-
 high_risk_orders = filtered_df[
     filtered_df["Risk Level"] == "High"
 ].shape[0]
@@ -820,10 +752,6 @@ slow_shipping_orders = filtered_df[
 current_avg_lead_time = filtered_df[
     "Lead Time (Days)"
 ].mean()
-
-# -------------------------------
-# Professional Recommendation Cards
-# -------------------------------
 
 rec1, rec2, rec3 = st.columns(3)
 
@@ -857,10 +785,6 @@ with rec3:
         unsafe_allow_html=True
     )
 
-# -------------------------------
-# Recommendation Message
-# -------------------------------
-
 st.markdown(f"""
 <div style="
     margin-top:18px;
@@ -885,10 +809,6 @@ st.markdown(f"""
 
 
 st.markdown("<div style='height:1px;'></div>", unsafe_allow_html=True)
-
-# =========================================================
-# FACTORY REALLOCATION SCENARIO
-# =========================================================
 
 st.markdown("<div style='height:8px;'></div>", unsafe_allow_html=True)
 
@@ -915,7 +835,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Factory options
 factory_options = sorted(df["Factory"].dropna().unique().tolist())
 
 sim_col1, sim_col2 = st.columns(2)
@@ -939,11 +858,6 @@ with sim_col2:
         key="scenario_target_factory"
     )
 
-
-# ---------------------------------------------------------
-# Factory-level performance
-# ---------------------------------------------------------
-
 current_data = df[df["Factory"] == current_factory]
 target_data = df[df["Factory"] == target_factory]
 
@@ -959,11 +873,6 @@ target_margin = target_data["Profit Margin %"].mean()
 
 lead_time_change = current_lead - target_lead
 margin_change = target_margin - current_margin
-
-
-# ---------------------------------------------------------
-# Scenario result cards
-# ---------------------------------------------------------
 
 st.markdown("<div style='height:12px;'></div>", unsafe_allow_html=True)
 
@@ -1066,11 +975,6 @@ with sc4:
         unsafe_allow_html=True
     )
 
-
-# ---------------------------------------------------------
-# Scenario recommendation
-# ---------------------------------------------------------
-
 st.markdown("<div style='height:16px;'></div>", unsafe_allow_html=True)
 
 if lead_time_change > 0 and margin_change >= 0:
@@ -1140,10 +1044,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# -------------------------------
-# Filtered Dataset
-# -------------------------------
-
 st.divider()
 
 st.subheader("📋 Filtered Dataset")
@@ -1161,7 +1061,6 @@ show_data = st.checkbox("Show Filtered Data")
 
 if show_data:
     st.dataframe(filtered_df, use_container_width=True)
-# Download Filtered Dataset
 
 csv_data = filtered_df.to_csv(index=False).encode("utf-8")
 
