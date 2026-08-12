@@ -176,6 +176,9 @@ Factory-Reallocation-Shipping-Optimization/
 ├── README.md
 ├── requirements.txt
 ├── .gitignore
+│
+└── Research Paper/
+    └── Factory_Reallocation Research_Paper.pdf
 
 > The exact folder structure may vary depending on the files required by the Streamlit application.
 
