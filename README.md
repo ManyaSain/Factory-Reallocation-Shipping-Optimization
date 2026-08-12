@@ -176,11 +176,6 @@ Factory-Reallocation-Shipping-Optimization/
 ├── README.md
 ├── requirements.txt
 ├── .gitignore
-│
-└── logos/
-    ├── python.png
-    └── streamlit.png
-```
 
 > The exact folder structure may vary depending on the files required by the Streamlit application.
 
